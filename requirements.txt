@@ -15,3 +15,5 @@ gunicorn
 
 # Driver de conexão para o banco PostgreSQL (Neon)
 psycopg2-binary
+
+# commit final
