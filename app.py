@@ -34,9 +34,8 @@ def whatsapp_bot():
 # --- INICIALIZAÇÃO DO SERVIDOR ---
 
 if __name__ == "__main__":
-    # O Render define a porta automaticamente na variável de ambiente 'PORT'
-    # Se não houver, usamos a 5000 como padrão local
     port = int(os.environ.get("PORT", 5000))
+    print(f" Iniciando servidor na porta {port}...") 
     app.run(host='0.0.0.0', port=port)
 
     # commit final
