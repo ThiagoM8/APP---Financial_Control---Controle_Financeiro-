@@ -1,0 +1,17 @@
+# Servidor web para receber mensagens do WhatsApp
+flask
+
+# Biblioteca para integração com a API do Twilio
+twilio
+
+# Cliente oficial para IA (Gemini 2.0)
+google-genai
+
+# Gerenciador de variáveis de ambiente (.env)
+python-dotenv
+
+# Servidor de produção para o Render (Start Command)
+gunicorn
+
+# Driver de conexão para o banco PostgreSQL (Neon)
+psycopg2-binary
