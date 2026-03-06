@@ -125,3 +125,5 @@ def resumo_por_categoria(whatsapp_id):
 if __name__ == "__main__":
     # Garante que o banco está pronto na nuvem
     inicializar_banco()
+
+    # commit final

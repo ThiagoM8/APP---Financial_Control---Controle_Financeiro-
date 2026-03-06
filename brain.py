@@ -34,7 +34,7 @@ def processar_e_salvar(whatsapp_id, texto_usuario):
     try:
         # Chama o modelo 2.0 Flash para processamento ultra rápido
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-1.5-flash",
             contents=prompt
         )
         
