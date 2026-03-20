@@ -1,23 +1,21 @@
 import psycopg2 # Driver profissional para PostgreSQL
-import os
+import os 
 from dotenv import load_dotenv
 
 # Carrega as configurações de ambiente (DATABASE_URL do Neon)
 load_dotenv()
 
 # --- 1. CONFIGURAÇÃO E CRIAÇÃO ---
-
 def conectar_banco():
     """ Estabelece a conexão com o banco de dados na nuvem (Neon) """
-    url = os.getenv('DATABASE_URL')
-    return psycopg2.connect(url)
+    return psycopg2.connect(os.getenv("DATABASE_URL")) # psycopg2 é o driver que liga o PostgreSQL, os.getenv busca a key no arquivo .env
 
 def inicializar_banco():
-    """ Cria a tabela no Postgres se ela não existir """
+    """ Cria a tabela no Postgre se ela não existir """
     conexao = conectar_banco()
-    cursor = conexao.cursor()
+    cursor = conexao.cursor() #Cria a variavel cursor com a função cursor para executar os comandos em SQL
 
-    # Criamos a tabela 'movimentacoes'
+    # Criamos a tabela 'movimentacoes' com a função execute
     # SERIAL: ID autoincremento | TIMESTAMP: Data automática
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS public.movimentacoes (
@@ -28,7 +26,9 @@ def inicializar_banco():
             valor NUMERIC(10,2) NOT NULL,
             categoria TEXT NOT NULL)
     ''')
-    
+    #Usei public. para identificar desde já que o schema é o public
+
+
     conexao.commit()
     cursor.close()
     conexao.close()
@@ -47,7 +47,9 @@ def adicionar_gasto(whatsapp_id, descricao, valor, categoria):
         INSERT INTO public.movimentacoes (whatsapp_id, descricao, valor, categoria)
         VALUES (%s, %s, %s, %s)
     '''
-    
+    #Usei o placeholder para manter a segurança, evitando que o DB confunda com um comando malicioso
+
+
     cursor.execute(comando, (whatsapp_id, descricao, valor, categoria))
     
     conexao.commit()
@@ -76,12 +78,12 @@ def listar_gastos(whatsapp_id, mes=None, ano=None):
         query += " AND EXTRACT(MONTH FROM data_registro) = %s AND EXTRACT(YEAR FROM data_registro) = %s"
         params.extend([mes, ano])
     
-    query += " ORDER BY data_registro DESC"
+    query += " ORDER BY data_registro DESC" #Garante que os gastos recentes aparecem primeiro na lista
 
-    # Executa passando o ID como uma tupla
+    # Executa tornando o params que era uma lista, em tupla
     cursor.execute(query, tuple(params))
     
-    gastos = cursor.fetchall()
+    gastos = cursor.fetchall() #Retorna dados - o inverso do commit
     cursor.close()
     conexao.close()
     
